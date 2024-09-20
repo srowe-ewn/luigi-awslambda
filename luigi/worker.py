@@ -397,6 +397,9 @@ class DequeQueue(collections.deque):
         except IndexError:
             raise Queue.Empty
 
+    def close(self):
+        pass
+
 
 class AsyncCompletionException(Exception):
     """
@@ -599,7 +602,7 @@ class Worker:
                 pass
 
         # Keep info about what tasks are running (could be in other processes)
-        self._task_result_queue = multiprocessing.Queue()
+        self._task_result_queue = DequeQueue() #multiprocessing.Queue()
         self._running_tasks = {}
         self._idle_since = None
 
