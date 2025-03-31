@@ -18,7 +18,7 @@
     :target: https://luigi.readthedocs.io/en/stable/?badge=stable
     :alt: Documentation Status
 
-Luigi is a Python (3.6, 3.7, 3.8, 3.9, 3.10, 3.11, 3.12 tested) package that helps you build complex
+Luigi is a Python (3.7, 3.8, 3.9, 3.10, 3.11, 3.12 tested) package that helps you build complex
 pipelines of batch jobs. It handles dependency resolution, workflow management,
 visualization, handling failures, command line integration, and much more.
 
@@ -194,6 +194,7 @@ Some more companies are using Luigi but haven't had a chance yet to write about 
 * `Meltwater <https://www.meltwater.com/>`_
 * `DevSamurai <https://www.devsamurai.com/>`_
 * `Veridas <https://veridas.com/>`_
+* `Aidentified <https://www.aidentified.com/>`_
 
 We're more than happy to have your company added here. Just send a PR on GitHub.
 

@@ -32,7 +32,7 @@ These files are meant for both the client and ``luigid``.
 If you decide to specify your own configuration you should make sure
 that both the client and ``luigid`` load it properly.
 
-.. _ConfigParser.read: https://docs.python.org/3.6/library/configparser.html#configparser.ConfigParser.read
+.. _ConfigParser.read: https://docs.python.org/3/library/configparser.html#configparser.ConfigParser.read
 
 The config file is broken into sections, each controlling a different part of the config.
 
@@ -637,6 +637,18 @@ marker_table
   created if it doesn't already exist. Defaults to "table_updates".
 
 
+[prometheus]
+------------
+
+use_task_family_in_labels
+  Should task family be used as a prometheus bucket label.
+  Default value is true.
+
+task_parameters_to_use_in_labels
+  List of task arguments' names used as additional prometheus bucket labels.
+  Passed in a form of a json list.
+
+
 [redshift]
 ----------
 
@@ -1044,6 +1056,7 @@ statsd_port
 metric_namespace
   Optional prefix to add to the beginning of every metric sent to Datadog.
   Default value is "luigi".
+
 
 Per Task Retry-Policy
 ---------------------

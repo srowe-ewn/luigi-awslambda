@@ -13,8 +13,6 @@ jobs:
     strategy:
       matrix:
         include:
-          - python-version: "3.6"
-            tox-env: py36-core
           - python-version: "3.7"
             tox-env: py37-core
           - python-version: "3.8"
@@ -29,13 +27,13 @@ jobs:
             tox-env: py312-core
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
       - name: Cache pip
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           # This path is specific to Ubuntu
           path: ~/.cache/pip
@@ -54,12 +52,13 @@ jobs:
         env:
           TOXENV: ${{ matrix.tox-env }}
         run: tox
-      - name: Codecov
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          fail_ci_if_error: true
+          verbose: true
         env:
-          COVERAGE_PROCESS_START: .coveragerc
-        run: |
-          pip install codecov
-          codecov -e ${{ matrix.tox-env }}
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   postgres:
     runs-on: ubuntu-20.04
@@ -82,8 +81,6 @@ jobs:
     strategy:
       matrix:
         include:
-          - python-version: "3.6"
-            tox-env: py36-postgres
           - python-version: "3.7"
             tox-env: py37-postgres
           - python-version: "3.8"
@@ -98,13 +95,13 @@ jobs:
             tox-env: py312-postgres
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
       - name: Cache pip
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           # This path is specific to Ubuntu
           path: ~/.cache/pip
@@ -120,12 +117,13 @@ jobs:
         env:
           TOXENV: ${{ matrix.tox-env }}
         run: tox
-      - name: Codecov
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          fail_ci_if_error: true
+          verbose: true
         env:
-          COVERAGE_PROCESS_START: .coveragerc
-        run: |
-          pip install codecov
-          codecov -e ${{ matrix.tox-env }}
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   base:
     runs-on: ubuntu-20.04
@@ -137,8 +135,6 @@ jobs:
     strategy:
       matrix:
         include:
-          - python-version: "3.6"
-            tox-env: py36-aws
           - python-version: "3.7"
             tox-env: py37-aws
           - python-version: "3.8"
@@ -152,9 +148,6 @@ jobs:
           - python-version: "3.12"
             tox-env: py312-aws
 
-          - python-version: "3.6"
-            tox-env: py36-unixsocket
-            OVERRIDE_SKIP_CI_TESTS: True
           - python-version: "3.7"
             tox-env: py37-unixsocket
             OVERRIDE_SKIP_CI_TESTS: True
@@ -174,8 +167,6 @@ jobs:
             tox-env: py312-unixsocket
             OVERRIDE_SKIP_CI_TESTS: True
 
-          - python-version: "3.6"
-            tox-env: py36-apache
           - python-version: "3.7"
             tox-env: py37-apache
           - python-version: "3.8"
@@ -189,8 +180,6 @@ jobs:
           - python-version: "3.12"
             tox-env: py312-apache
 
-          - python-version: "3.6"
-            tox-env: py36-azureblob
           - python-version: "3.7"
             tox-env: py37-azureblob
           - python-version: "3.8"
@@ -211,13 +200,13 @@ jobs:
             tox-env: docs
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
       - name: Cache pip
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           # This path is specific to Ubuntu
           path: ~/.cache/pip
@@ -231,10 +220,11 @@ jobs:
           TOXENV: ${{ matrix.tox-env }}
           OVERRIDE_SKIP_CI_TESTS: ${{ matrix.OVERRIDE_SKIP_CI_TESTS }}
         run: tox
-      - name: Codecov
+      - name: Upload coverage to Codecov
         if: ${{ matrix.tox-env != 'flake8' && matrix.tox-env != 'docs' }}
+        uses: codecov/codecov-action@v5
+        with:
+          fail_ci_if_error: true
+          verbose: true
         env:
-          COVERAGE_PROCESS_START: .coveragerc
-        run: |
-          pip install codecov
-          codecov -e ${{ matrix.tox-env }}
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
